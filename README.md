@@ -73,6 +73,38 @@ export OPENROUTER_MODEL=deepseek/deepseek-v4-flash   # or any OpenRouter chat mo
 npm start
 ```
 
+## Deploying
+
+`broker/` is a plain long-running Node/Express process (it spawns a real
+sandboxed test run per verification and drives a real Chromium via
+Playwright for each demo run) — it needs an always-on host, not a
+serverless function platform like Vercel/Netlify Functions, which
+generally can't run Playwright/Chromium within their execution limits.
+Good fits: **Render**, **Railway**, **Fly.io**, or any plain VPS —
+anywhere you can run `npm install && npx playwright install --with-deps
+chromium && npm start` as a persistent process with port `3000` (or
+`$BROKER_PORT`) exposed.
+
+`sites/requester/` and `sites/worker/` are pure static files and can be
+hosted anywhere static hosting works (Netlify, Vercel, Cloudflare Pages,
+GitHub Pages) — including on genuinely different domains from each other
+and from the broker, which is arguably the *most* honest demonstration of
+the "any independent site can join" pitch.
+
+If the two site origins end up on different hosts/domains than
+`localhost:3001`/`:3002`, point the broker at them instead of guessing —
+it never hardcodes localhost past this:
+
+```bash
+export REQUESTER_URL=https://your-requester-domain.example
+export WORKER_URL=https://your-worker-domain.example
+npm start
+```
+
+(`broker/src/agent.mjs` and the dashboard's iframes both read these same
+two env vars via `GET /api/config`, so setting them is the only change
+needed — no code edits.)
+
 ## Project layout
 
 ```

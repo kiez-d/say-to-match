@@ -18,6 +18,13 @@ const EMBED_FILE = path.join(SITES_DIR, "wli-embed.js");
 const BROKER_PORT = process.env.BROKER_PORT || 3000;
 const REQUESTER_PORT = process.env.REQUESTER_PORT || 3001;
 const WORKER_PORT = process.env.WORKER_PORT || 3002;
+// Public URLs for the two origins. Locally these default to localhost on
+// their own ports. In a real deployment, the requester and worker sites
+// would typically be hosted on entirely different domains — set
+// REQUESTER_URL/WORKER_URL to those and agent.mjs (which reads the same
+// env vars) will drive the real deployed origins instead of localhost.
+const REQUESTER_URL = process.env.REQUESTER_URL || `http://localhost:${REQUESTER_PORT}`;
+const WORKER_URL = process.env.WORKER_URL || `http://localhost:${WORKER_PORT}`;
 
 const bus = new EventEmitter();
 bus.setMaxListeners(50);
@@ -49,6 +56,8 @@ app.use(express.json());
 app.use(express.static(path.join(__dirname, "..", "public")));
 
 app.get("/health", (_req, res) => res.json({ ok: true }));
+
+app.get("/api/config", (_req, res) => res.json({ requesterUrl: REQUESTER_URL, workerUrl: WORKER_URL }));
 
 app.get("/api/ledger", (_req, res) => res.json(listEntries()));
 

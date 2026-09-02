@@ -64,8 +64,8 @@
 
 <div class="layout">
   <div class="col">
-    <h2>Requester origin · :3001</h2>
-    <iframe src="http://localhost:3001" title="requester"></iframe>
+    <h2 id="requester-label">Requester origin</h2>
+    <iframe id="requester-frame" title="requester"></iframe>
   </div>
 
   <div class="col">
@@ -79,8 +79,8 @@
   </div>
 
   <div class="col">
-    <h2>Worker origin · :3002</h2>
-    <iframe src="http://localhost:3002" title="worker"></iframe>
+    <h2 id="worker-label">Worker origin</h2>
+    <iframe id="worker-frame" title="worker"></iframe>
   </div>
 </div>
 
@@ -152,6 +152,18 @@
   es.onmessage = (e) => line(JSON.parse(e.data));
 
   refreshLedger();
+
+  fetch("/api/config")
+    .then((r) => r.json())
+    .then(({ requesterUrl, workerUrl }) => {
+      document.getElementById("requester-frame").src = requesterUrl;
+      document.getElementById("worker-frame").src = workerUrl;
+      document.getElementById("requester-label").textContent =
+        "Requester origin · " + new URL(requesterUrl).host;
+      document.getElementById("worker-label").textContent =
+        "Worker origin · " + new URL(workerUrl).host;
+    })
+    .catch(() => {});
 </script>
 
 </body>
