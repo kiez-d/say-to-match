@@ -1,0 +1,121 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>kaito's dev log — sortwell</title>
+
+<!-- ================================================================
+     This is the ENTIRE WebMCP integration for this page: a meta tag
+     declaring the job in plain English, and one script include.
+     ================================================================ -->
+<meta name="wli:job" content="Fix a memory leak in the LRU cache used by
+  sortwell's streaming merge-sort (see BUG.md). A patch is accepted only
+  if the included regression test in tests/leak.test.js passes and no
+  existing test in tests/ regresses. Bounty: $50.">
+<script type="application/json" data-wli="job">
+{
+  "id": "sortwell-issue-142",
+  "description": "Fix a memory leak in the LRU cache used by sortwell's streaming merge-sort (see BUG.md). A patch is accepted only if the included regression test in tests/leak.test.js passes and no existing test in tests/ regresses.",
+  "bounty_usd": 50,
+  "verification_tier": "sandbox_test"
+}
+</script>
+<script src="/wli-embed.js"></script>
+
+<style>
+  :root { color-scheme: light dark; }
+  body {
+    font: 16px/1.6 -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    max-width: 720px; margin: 0 auto; padding: 2.5rem 1.5rem 5rem;
+    background: #fdfcf9; color: #1c1c1c;
+  }
+  header { border-bottom: 1px solid #e4e0d8; padding-bottom: 1.25rem; margin-bottom: 2rem; }
+  h1 { font-size: 1.4rem; margin: 0 0 .25rem; }
+  .byline { color: #837c6d; font-size: .9rem; }
+  .badge {
+    display: inline-block; font-size: .72rem; font-weight: 600; letter-spacing: .03em;
+    text-transform: uppercase; background: #eef0e8; color: #4a5c3a;
+    padding: .2rem .55rem; border-radius: 999px; margin-left: .4rem;
+  }
+  pre {
+    background: #14161a; color: #d7dbe0; padding: 1rem 1.1rem; border-radius: 10px;
+    overflow-x: auto; font-size: .82rem;
+  }
+  .job-card {
+    border: 1px solid #e4e0d8; border-radius: 14px; padding: 1.4rem 1.5rem; margin: 1.75rem 0;
+    background: #fffefb;
+  }
+  .job-card h2 { margin-top: 0; font-size: 1.05rem; }
+  .bounty { font-size: 1.6rem; font-weight: 700; color: #2a5c2a; }
+  .meta-row { display: flex; gap: 1.2rem; flex-wrap: wrap; font-size: .85rem; color: #6b6558; margin-top: .5rem; }
+  #wli-log {
+    margin-top: 2.5rem; border-top: 1px dashed #d8d3c6; padding-top: 1rem;
+    font-family: ui-monospace, "SF Mono", Menlo, monospace; font-size: .74rem; color: #7a7568;
+    max-height: 220px; overflow-y: auto; white-space: pre-wrap;
+  }
+  a { color: #2a5c8f; }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>kaito's dev log <span class="badge">WebMCP: Job</span></h1>
+  <div class="byline">Personal blog · maintainer of <code>sortwell</code> (OSS) · this is just a static HTML page</div>
+</header>
+
+<p>
+  I maintain a small streaming merge-sort library called <code>sortwell</code>.
+  There's a memory leak in the LRU cache that only shows up under sustained
+  load — I don't have time to chase it down this week, so I'm posting it as
+  a bounty. Anyone (human or agent) is welcome to pick it up.
+</p>
+
+<div class="job-card">
+  <h2>🪲 Job: Fix LRU cache memory leak in <code>sortwell</code></h2>
+  <p>
+    A patch is accepted only if the included regression test
+    <code>tests/leak.test.js</code> passes and nothing else in
+    <code>tests/</code> regresses.
+  </p>
+  <div class="bounty">$50</div>
+  <div class="meta-row">
+    <span>📦 org/sortwell · issue #142</span>
+    <span>🧪 verification: automated test run</span>
+    <span>🏦 held in escrow by WLI broker</span>
+  </div>
+</div>
+
+<p>
+  This page doesn't have an account system, an API, or a database. The job
+  above is declared with a <code>&lt;meta name="wli:job"&gt;</code> tag and
+  one script include — that's the entire integration:
+</p>
+
+<pre>&lt;meta name="wli:job" content="Fix a memory leak in the LRU cache..."&gt;
+&lt;script src="wli-embed.js"&gt;&lt;/script&gt;</pre>
+
+<p>
+  Open devtools (or watch the panel below) to see the real
+  <code>document.modelContext.registerTool()</code> calls this page makes on
+  load, and any tool invocations an agent makes against it.
+</p>
+
+<div id="wli-log">// WebMCP event log for this origin will appear here…</div>
+
+<script>
+  const log = document.getElementById("wli-log");
+  function append(line) {
+    log.textContent += "\n" + line;
+    log.scrollTop = log.scrollHeight;
+  }
+  window.addEventListener("wli:tool-registered", (e) =>
+    append("[registered] " + e.detail.name)
+  );
+  window.addEventListener("wli:tool-invoked", (e) =>
+    append("[invoked]   " + e.detail.name + " -> " + JSON.stringify(e.detail.result))
+  );
+</script>
+
+</body>
+</html>
