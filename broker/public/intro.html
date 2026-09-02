@@ -57,14 +57,15 @@
   }
 
   /* Timings below are tuned against demo/render/segment_plan.json's
-     real (measured, not guessed) narration durations for lines 1-4:
-     line1 0.00-9.92s, line2 10.37-19.31s, line3 19.76-34.75s,
-     line4 35.20-38.44s. Re-tune these if narration.txt's first four
-     lines change — see demo/build_audio.py. */
+     real (measured, not guessed) narration durations for lines 1-4,
+     generated with piper --length_scale 1.05 (5% slower than default):
+     line1 0.00-10.27s, line2 10.72-20.08s, line3 20.53-35.40s,
+     line4 35.85-38.96s. Re-tune these if narration.txt's first four
+     lines or --length_scale change — see demo/build_audio.py. */
   .risk-line {
     position: absolute; top: 360px; left: 0; right: 0; text-align: center;
     font-size: 30px; font-weight: 600; color: var(--fg); padding: 0 120px;
-    opacity: 0; animation: fadeHold 9s ease-in-out 1.0s forwards;
+    opacity: 0; animation: fadeHold 9.2s ease-in-out 1.0s forwards;
   }
   .risk-line b { color: #ff8a8a; }
   @keyframes fadeHold {
@@ -77,11 +78,11 @@
   .solution-line {
     position: absolute; top: 360px; left: 0; right: 0; text-align: center;
     font-size: 28px; font-weight: 600; color: var(--good); padding: 0 130px;
-    opacity: 0; animation: fadeHold 8.8s ease-in-out 10.3s forwards;
+    opacity: 0; animation: fadeHold 9.3s ease-in-out 10.7s forwards;
   }
 
   /* the three-role diagram, phase 3 onward (line3 window: 19.76-34.75s) */
-  .diagram { position: absolute; inset: 0; opacity: 0; animation: fadeIn .8s ease-out 19.7s forwards; }
+  .diagram { position: absolute; inset: 0; opacity: 0; animation: fadeIn .8s ease-out 20.5s forwards; }
   @keyframes fadeIn { to { opacity: 1; } }
 
   .node {
@@ -94,9 +95,9 @@
   .node .label { font-size: 19px; font-weight: 700; margin-top: 4px; }
   .node .sub { font-size: 13px; color: var(--muted); margin-top: 6px; }
 
-  .n-requester { top: 260px; left: 60px; animation: nodeIn .7s ease-out 20.0s forwards; }
-  .n-broker    { top: 90px;  left: 490px; animation: nodeIn .7s ease-out 21.8s forwards; border-color: var(--accent); }
-  .n-worker    { top: 260px; left: 920px; animation: nodeIn .7s ease-out 25.0s forwards; }
+  .n-requester { top: 260px; left: 60px; animation: nodeIn .7s ease-out 20.8s forwards; }
+  .n-broker    { top: 90px;  left: 490px; animation: nodeIn .7s ease-out 22.6s forwards; border-color: var(--accent); }
+  .n-worker    { top: 260px; left: 920px; animation: nodeIn .7s ease-out 25.8s forwards; }
   @keyframes nodeIn { to { opacity: 1; transform: translateY(0) scale(1); } }
 
   svg.flows { position: absolute; inset: 0; width: 1280px; height: 800px; }
@@ -104,23 +105,23 @@
     fill: none; stroke: var(--accent); stroke-width: 3; stroke-linecap: round;
     stroke-dasharray: 420; stroke-dashoffset: 420; opacity: .9;
   }
-  .flow-path.p1 { animation: draw 1.1s ease-out 22.2s forwards; }
-  .flow-path.p2 { animation: draw 1.1s ease-out 25.4s forwards; stroke: var(--warn); }
-  .flow-path.p3 { animation: draw 1.1s ease-out 28.5s forwards; stroke: var(--good); }
+  .flow-path.p1 { animation: draw 1.1s ease-out 23.0s forwards; }
+  .flow-path.p2 { animation: draw 1.1s ease-out 26.2s forwards; stroke: var(--warn); }
+  .flow-path.p3 { animation: draw 1.1s ease-out 29.3s forwards; stroke: var(--good); }
   @keyframes draw { to { stroke-dashoffset: 0; } }
 
   .flow-label {
     position: absolute; font-size: 13px; color: var(--muted); opacity: 0;
     background: var(--bg); padding: 2px 8px; border-radius: 6px;
   }
-  .fl1 { top: 158px; left: 350px; animation: fadeUp .6s ease-out 23.0s forwards; }
-  .fl2 { top: 158px; left: 760px; animation: fadeUp .6s ease-out 26.2s forwards; }
-  .fl3 { top: 430px; left: 555px; animation: fadeUp .6s ease-out 29.3s forwards; }
+  .fl1 { top: 158px; left: 350px; animation: fadeUp .6s ease-out 23.8s forwards; }
+  .fl2 { top: 158px; left: 760px; animation: fadeUp .6s ease-out 27.0s forwards; }
+  .fl3 { top: 430px; left: 555px; animation: fadeUp .6s ease-out 30.1s forwards; }
 
   .tagline {
     position: absolute; bottom: 64px; left: 0; right: 0; text-align: center;
     font-size: 15px; color: var(--muted); opacity: 0;
-    animation: fadeUp 1s ease-out 31.5s forwards;
+    animation: fadeUp 1s ease-out 32.3s forwards;
   }
   .tagline b { color: var(--fg); }
 

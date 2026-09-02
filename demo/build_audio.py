@@ -11,6 +11,15 @@ SEG_DIR = os.path.join(ROOT, "render", "segments")
 FFMPEG = os.path.join(ROOT, "..", "tools", "bin", "ffmpeg")
 FFPROBE = os.path.join(ROOT, "..", "tools", "bin", "ffprobe")
 GAP_SEC = 0.45
+# The first N narration lines play over broker/public/intro.html, which
+# already displays that same text as large stylized on-screen typography
+# (see its .risk-line/.solution-line/.tagline elements). Burning the
+# same words in again as bottom-of-frame SRT captions during that
+# stretch is redundant clutter, so we skip emitting caption entries for
+# them — captions still cover every line once the video cuts to the
+# live dashboard, which has no on-screen text of its own. Keep this in
+# sync with intro.html's phases if narration.txt's opening changes.
+SKIP_CAPTIONS_FOR_FIRST_N_LINES = 4
 
 with open(os.path.join(ROOT, "narration.txt")) as f:
     lines = [l.strip() for l in f if l.strip()]
@@ -69,9 +78,17 @@ for line, dur in zip(lines, durations):
     t += dur + GAP_SEC
 
 with open(srt_path, "w") as f:
-    for i, (start, end, text) in enumerate(timeline, 1):
-        f.write(f"{i}\n{fmt_ts(start)} --> {fmt_ts(end)}\n{text}\n\n")
-print("wrote", srt_path)
+    cue_num = 1
+    for i, (start, end, text) in enumerate(timeline):
+        if i < SKIP_CAPTIONS_FOR_FIRST_N_LINES:
+            continue
+        f.write(f"{cue_num}\n{fmt_ts(start)} --> {fmt_ts(end)}\n{text}\n\n")
+        cue_num += 1
+print(
+    "wrote", srt_path,
+    f"(skipped captions for the first {SKIP_CAPTIONS_FOR_FIRST_N_LINES} lines — "
+    "they're already shown as on-screen text by intro.html)",
+)
 
 # Also emit the per-segment plan (duration + gap) as JSON for the
 # Playwright recording script to pace itself against.

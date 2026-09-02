@@ -16,7 +16,7 @@ FFMPEG=tools/bin/ffmpeg
 "$FFMPEG" -y \
   -i demo/render/dashboard-capture.webm \
   -i demo/render/narration.wav \
-  -filter_complex "[0:v]subtitles=demo/render/captions.srt:force_style='FontName=Liberation Sans,FontSize=20,PrimaryColour=&H00FFFFFF,OutlineColour=&H00000000,BorderStyle=3,Outline=1,Shadow=0,MarginV=40'[v]" \
+  -filter_complex "[0:v]subtitles=demo/render/captions.srt:force_style='FontName=Liberation Sans,FontSize=15,Bold=1,PrimaryColour=&H00FFFFFF,OutlineColour=&H80000000,BorderStyle=3,Outline=1,Shadow=0,MarginV=36'[v]" \
   -map "[v]" -map 1:a \
   -c:v libx264 -pix_fmt yuv420p -crf 20 -preset veryfast \
   -c:a aac -b:a 160k \
