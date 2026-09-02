@@ -1,0 +1,16 @@
+node_modules/
+.next/
+out/
+dist/
+build/
+.env
+.env.*
+!.env.example
+*.log
+.DS_Store
+.vercel/
+.netlify/
+tools/bin/
+assets/render/*.mp4
+assets/render/*.webm
+webmcp-session-handover.zip
