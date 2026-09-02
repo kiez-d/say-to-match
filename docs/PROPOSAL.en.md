@@ -160,8 +160,12 @@ heavier reasoning model, invoked only when tier 1 and tier 2 disagree or
 either party disputes the result** — which is what keeps the system
 resistant to edge cases without paying for a heavy model on every
 transaction. That tier is architectural at this stage, not yet
-implemented in this PoC (a hackathon-scope decision, not an oversight);
-the two-tier pipeline that *is* live already keeps verification cost a
+implemented in this PoC (a hackathon-scope decision, not an oversight) —
+see [`docs/PROTOCOL.md`](PROTOCOL.md) for the full protocol design,
+including the escrow state machine, the Mandate objects that make it
+tamper-resistant, and a systematic catalogue of dishonest moves each
+side of a transaction could attempt and how the design closes them. The
+two-tier pipeline that *is* live already keeps verification cost a
 small fraction of a percent of typical bounties, which is what a
 sustainable 2–5% broker take-rate needs to hold.
 

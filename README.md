@@ -9,7 +9,10 @@ matches, verifies, and settles between them.
 
 Full write-up: [`docs/PROPOSAL.en.md`](docs/PROPOSAL.en.md) (English,
 primary) · [`docs/PROPOSAL.ja.md`](docs/PROPOSAL.ja.md) (Japanese,
-supplementary).
+supplementary). Protocol/trust design (concept work, beyond what this
+PoC implements — Mandate objects, escrow state machine, and an
+adversarial catalogue of dishonest moves each side could attempt):
+[`docs/PROTOCOL.md`](docs/PROTOCOL.md).
 
 **Demo video**: `demo/render/wli-demo.mp4` (~75s, narrated, captioned —
 not committed to git since it's a generated binary; regenerate with
