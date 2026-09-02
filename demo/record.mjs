@@ -11,6 +11,7 @@ import { fileURLToPath } from "node:url";
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const RENDER_DIR = path.join(__dirname, "render");
 const DASHBOARD = process.env.DASHBOARD_URL || "http://localhost:3000";
+const INTRO = process.env.INTRO_URL || "http://localhost:3000/intro.html";
 
 const plan = JSON.parse(await readFile(path.join(RENDER_DIR, "segment_plan.json"), "utf8"));
 const wait = (seg) => new Promise((r) => setTimeout(r, (seg.duration + seg.gap) * 1000));
@@ -29,35 +30,45 @@ const context = await browser.newContext({
 });
 const page = await context.newPage();
 
+console.log("Opening intro animation...");
+await page.goto(INTRO, { waitUntil: "load" });
+
+// seg01: the systemic-risk framing (AI unemployment) — plays over the
+// intro animation's "excluded worker" motif
+await wait(plan[0]);
+// seg02: the mitigation framing ("what we built" keeps the door open)
+await wait(plan[1]);
+// seg03: the three-role explanation — plays over the animated
+// Requester/Broker/Worker diagram drawing itself in
+await wait(plan[2]);
+// seg04: "here's what that looks like, running live" -> cut to the dashboard
+await wait(plan[3]);
+
 console.log("Opening dashboard...");
 await page.goto(DASHBOARD, { waitUntil: "load" });
 
-// seg01: problem framing (walled gardens), on the dashboard
-await wait(plan[0]);
-// seg02: solution framing / "what we built", on the dashboard
-await wait(plan[1]);
-// seg03: describe requester (left)
-await wait(plan[2]);
-// seg04: describe worker (right)
-await wait(plan[3]);
-// seg05: "watch when we click Run Full Demo" -> click at the end of this beat
+// seg05: describe requester (left)
 await wait(plan[4]);
+// seg06: describe worker (right)
+await wait(plan[5]);
+// seg07: "watch when we click Run Full Demo" -> click at the end of this beat
+await wait(plan[6]);
 console.log("Clicking Run Full Demo...");
 await clickRunFullDemo(page);
-// seg06: the run itself / "how we used WebMCP" (discovery, matching)
-await wait(plan[5]);
-// seg07: submit, verify (tier1 + tier2)
-await wait(plan[6]);
-// seg08: "it passes, escrow released"
+// seg08: the run itself / "how we used WebMCP" (discovery, matching)
 await wait(plan[7]);
-// seg09: "now watch an adversarial submission" -> click at the end
+// seg09: submit, verify (tier1 + tier2)
 await wait(plan[8]);
+// seg10: "it passes, escrow released"
+await wait(plan[9]);
+// seg11: "now watch an adversarial submission" -> click at the end
+await wait(plan[10]);
 console.log("Clicking Run Adversarial Demo...");
 await clickRunAdversarial(page);
-// seg10: broker judge not fooled
-await wait(plan[9]);
-// seg11: outro / "that's what we built"
-await wait(plan[10]);
+// seg12: broker judge not fooled
+await wait(plan[11]);
+// seg13: outro / "that's what we built"
+await wait(plan[12]);
 
 console.log("Closing (finalizing video)...");
 await context.close();

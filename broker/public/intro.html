@@ -1,0 +1,187 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>WLI Intro</title>
+<style>
+  :root {
+    --bg: #0b0d10; --panel: #12151a; --line: #232833;
+    --fg: #e6e9ef; --muted: #8891a3; --accent: #6ea8fe; --good: #3ecf7a; --warn: #f5b942;
+  }
+  * { box-sizing: border-box; }
+  html, body {
+    margin: 0; width: 1280px; height: 800px; overflow: hidden;
+    background: var(--bg); color: var(--fg);
+    font: 15px/1.5 -apple-system, BlinkMacSystemFont, "Segoe UI", "Liberation Sans", sans-serif;
+  }
+  .stage { position: relative; width: 100%; height: 100%; }
+
+  /* faint background grid, matches the dashboard's industrial feel */
+  .grid {
+    position: absolute; inset: 0;
+    background-image:
+      linear-gradient(var(--line) 1px, transparent 1px),
+      linear-gradient(90deg, var(--line) 1px, transparent 1px);
+    background-size: 64px 64px;
+    opacity: .18;
+  }
+
+  .kicker {
+    position: absolute; top: 56px; left: 0; right: 0; text-align: center;
+    font-size: 13px; letter-spacing: .12em; text-transform: uppercase; color: var(--muted);
+    opacity: 0; animation: fadeUp 1.2s ease-out .3s forwards;
+  }
+
+  /* exclusion motif: faint ghost silhouettes drifting out, phase 1 */
+  .ghosts { position: absolute; inset: 0; }
+  .ghost {
+    position: absolute; width: 34px; height: 34px; border-radius: 50%;
+    background: var(--muted); opacity: 0;
+    animation: ghostDrift 9s ease-in forwards;
+  }
+  .ghost::after {
+    content: ""; position: absolute; left: 50%; top: 130%; transform: translateX(-50%);
+    width: 46px; height: 26px; border-radius: 23px 23px 0 0; background: var(--muted);
+  }
+  .g1 { top: 210px; left: 220px; animation-delay: 1.0s; }
+  .g2 { top: 640px; left: 340px; animation-delay: 1.4s; }
+  .g3 { top: 180px; left: 980px; animation-delay: 1.8s; }
+  .g4 { top: 660px; left: 900px; animation-delay: 2.2s; }
+  .g5 { top: 420px; left: 1120px; animation-delay: 2.6s; }
+  @keyframes ghostDrift {
+    0%   { opacity: 0; transform: translateY(0) scale(.8); }
+    15%  { opacity: .28; transform: translateY(0) scale(1); }
+    70%  { opacity: .22; transform: translateY(-10px) scale(1); }
+    100% { opacity: 0; transform: translateY(-40px) scale(.7); }
+  }
+
+  /* Timings below are tuned against demo/render/segment_plan.json's
+     real (measured, not guessed) narration durations for lines 1-4:
+     line1 0.00-9.92s, line2 10.37-19.31s, line3 19.76-34.75s,
+     line4 35.20-38.44s. Re-tune these if narration.txt's first four
+     lines change — see demo/build_audio.py. */
+  .risk-line {
+    position: absolute; top: 360px; left: 0; right: 0; text-align: center;
+    font-size: 30px; font-weight: 600; color: var(--fg); padding: 0 120px;
+    opacity: 0; animation: fadeHold 9s ease-in-out 1.0s forwards;
+  }
+  .risk-line b { color: #ff8a8a; }
+  @keyframes fadeHold {
+    0% { opacity: 0; transform: translateY(8px); }
+    12% { opacity: 1; transform: translateY(0); }
+    85% { opacity: 1; }
+    100% { opacity: 0; }
+  }
+
+  .solution-line {
+    position: absolute; top: 360px; left: 0; right: 0; text-align: center;
+    font-size: 28px; font-weight: 600; color: var(--good); padding: 0 130px;
+    opacity: 0; animation: fadeHold 8.8s ease-in-out 10.3s forwards;
+  }
+
+  /* the three-role diagram, phase 3 onward (line3 window: 19.76-34.75s) */
+  .diagram { position: absolute; inset: 0; opacity: 0; animation: fadeIn .8s ease-out 19.7s forwards; }
+  @keyframes fadeIn { to { opacity: 1; } }
+
+  .node {
+    position: absolute; width: 300px; padding: 22px 20px; border-radius: 16px;
+    border: 1px solid var(--line); background: var(--panel);
+    text-align: center; opacity: 0; transform: translateY(16px) scale(.94);
+  }
+  .node .icon { font-size: 34px; margin-bottom: 8px; }
+  .node .role { font-size: 12px; text-transform: uppercase; letter-spacing: .08em; color: var(--muted); }
+  .node .label { font-size: 19px; font-weight: 700; margin-top: 4px; }
+  .node .sub { font-size: 13px; color: var(--muted); margin-top: 6px; }
+
+  .n-requester { top: 260px; left: 60px; animation: nodeIn .7s ease-out 20.0s forwards; }
+  .n-broker    { top: 90px;  left: 490px; animation: nodeIn .7s ease-out 21.8s forwards; border-color: var(--accent); }
+  .n-worker    { top: 260px; left: 920px; animation: nodeIn .7s ease-out 25.0s forwards; }
+  @keyframes nodeIn { to { opacity: 1; transform: translateY(0) scale(1); } }
+
+  svg.flows { position: absolute; inset: 0; width: 1280px; height: 800px; }
+  .flow-path {
+    fill: none; stroke: var(--accent); stroke-width: 3; stroke-linecap: round;
+    stroke-dasharray: 420; stroke-dashoffset: 420; opacity: .9;
+  }
+  .flow-path.p1 { animation: draw 1.1s ease-out 22.2s forwards; }
+  .flow-path.p2 { animation: draw 1.1s ease-out 25.4s forwards; stroke: var(--warn); }
+  .flow-path.p3 { animation: draw 1.1s ease-out 28.5s forwards; stroke: var(--good); }
+  @keyframes draw { to { stroke-dashoffset: 0; } }
+
+  .flow-label {
+    position: absolute; font-size: 13px; color: var(--muted); opacity: 0;
+    background: var(--bg); padding: 2px 8px; border-radius: 6px;
+  }
+  .fl1 { top: 158px; left: 350px; animation: fadeUp .6s ease-out 23.0s forwards; }
+  .fl2 { top: 158px; left: 760px; animation: fadeUp .6s ease-out 26.2s forwards; }
+  .fl3 { top: 430px; left: 555px; animation: fadeUp .6s ease-out 29.3s forwards; }
+
+  .tagline {
+    position: absolute; bottom: 64px; left: 0; right: 0; text-align: center;
+    font-size: 15px; color: var(--muted); opacity: 0;
+    animation: fadeUp 1s ease-out 31.5s forwards;
+  }
+  .tagline b { color: var(--fg); }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(10px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+</style>
+</head>
+<body>
+<div class="stage">
+  <div class="grid"></div>
+
+  <div class="kicker">A systemic risk of the agentic economy</div>
+
+  <div class="ghosts">
+    <div class="ghost g1"></div>
+    <div class="ghost g2"></div>
+    <div class="ghost g3"></div>
+    <div class="ghost g4"></div>
+    <div class="ghost g5"></div>
+  </div>
+
+  <div class="risk-line">As AI agents take on more digital work,<br>the risk isn't just <b>fewer jobs</b> — it's people <b>shut out</b> of an economy built to hire agents, not humans.</div>
+
+  <div class="solution-line">WebMCP Labor Index keeps that door open:<br>a human specialist and an AI agent are hired through the <u>exact same open protocol</u>.</div>
+
+  <div class="diagram">
+    <svg class="flows" viewBox="0 0 1280 800">
+      <path class="flow-path p1" d="M 360 300 C 420 260, 430 220, 490 190" />
+      <path class="flow-path p2" d="M 790 190 C 850 220, 860 260, 920 300" />
+      <path class="flow-path p3" d="M 900 400 C 760 470, 520 470, 380 400" />
+    </svg>
+
+    <div class="node n-requester">
+      <div class="icon">📋</div>
+      <div class="role">Requester</div>
+      <div class="label">posts a Job</div>
+      <div class="sub">plain-language task + bounty</div>
+    </div>
+
+    <div class="node n-broker">
+      <div class="icon">🏦</div>
+      <div class="role">Broker</div>
+      <div class="label">matches &amp; escrows</div>
+      <div class="sub">verifies, then releases payment</div>
+    </div>
+
+    <div class="node n-worker">
+      <div class="icon">🤖 / 🧑</div>
+      <div class="role">Worker</div>
+      <div class="label">offers a Skill</div>
+      <div class="sub">AI agent — or a human, HaaS</div>
+    </div>
+
+    <div class="flow-label fl1">discover &amp; match</div>
+    <div class="flow-label fl2">match &amp; submit</div>
+    <div class="flow-label fl3">verify → release $</div>
+  </div>
+
+  <div class="tagline">Three roles, one open protocol: <b>Job</b> · <b>Skill</b> · <b>Escrow</b></div>
+</div>
+</body>
+</html>
