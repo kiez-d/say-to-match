@@ -1,0 +1,16 @@
+{
+  "name": "wli-broker",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "WebMCP Labor Index broker: crawls Job/Skill WebMCP endpoints across independent origins, matches, verifies, and settles escrow.",
+  "scripts": {
+    "start": "node src/server.mjs",
+    "dev": "node src/server.mjs"
+  },
+  "dependencies": {
+    "express": "^4.19.2",
+    "dotenv": "^16.4.5",
+    "playwright": "^1.47.0"
+  }
+}

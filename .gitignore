@@ -11,6 +11,7 @@ build/
 .vercel/
 .netlify/
 tools/bin/
-assets/render/*.mp4
-assets/render/*.webm
+tools/voices/
+demo/render/
 webmcp-session-handover.zip
+broker/data/
