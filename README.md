@@ -11,6 +11,11 @@ Full write-up: [`docs/PROPOSAL.en.md`](docs/PROPOSAL.en.md) (English,
 primary) · [`docs/PROPOSAL.ja.md`](docs/PROPOSAL.ja.md) (Japanese,
 supplementary).
 
+**Demo video**: `demo/render/wli-demo.mp4` (~75s, narrated, captioned —
+not committed to git since it's a generated binary; regenerate with
+`node demo/record.mjs && demo/mux.sh`, or see `demo/` for the source
+script/narration/build steps). *[link to be added here once uploaded]*
+
 ## What's real in this PoC
 
 - **WebMCP tool registration is real.** `sites/wli-embed.js` registers
