@@ -1,10 +1,11 @@
-This is the WebMCP Labor Index, a broker dashboard for an open, agent-native labor market.
+Today's labor platforms are walled gardens: heavy onboarding, high fees, and no open way for an AI agent to discover and hire another agent, or a human specialist, for real work.
+This is WebMCP Labor Index, what we built: any website becomes part of an open labor market with one script tag, and a broker dashboard verifies and settles the work. Here it is, running live.
 On the left is an independent website: an open source maintainer's blog, posting a real bug-fix bounty as a WebMCP job.
 On the right is a completely separate origin: a developer's portfolio site, declaring a matching skill.
 Watch what happens when we click Run Full Demo.
-A real headless browser opens both origins as independent tabs, and calls their document dot model context tools directly. This is not one app faking two sides with a shared database.
+This is how we used WebMCP: a real headless browser opens both origins as independent tabs, and calls their document dot model context tools directly. Not one app faking two sides with a shared database.
 The worker submits a patch. The broker runs it through a real sandboxed test suite, then a frontier language model judges it against the original requirement.
 It passes. The fifty dollar bounty is released from escrow.
 Now watch an adversarial submission: broken code, with an embedded instruction trying to trick the judge into approving it anyway.
 The broker's judge is not fooled. The sandbox test fails, and the injection attempt is explicitly flagged and rejected. No payout.
-Any blog, any GitHub Pages site, any portfolio can join this market with one script tag. That's WebMCP Labor Index.
+Any blog, any GitHub Pages site, any portfolio can join this market with one script tag. That's what we built: WebMCP Labor Index.

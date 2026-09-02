@@ -32,30 +32,32 @@ const page = await context.newPage();
 console.log("Opening dashboard...");
 await page.goto(DASHBOARD, { waitUntil: "load" });
 
-// seg01: intro, on the dashboard
+// seg01: problem framing (walled gardens), on the dashboard
 await wait(plan[0]);
-// seg02: describe requester (left)
+// seg02: solution framing / "what we built", on the dashboard
 await wait(plan[1]);
-// seg03: describe worker (right)
+// seg03: describe requester (left)
 await wait(plan[2]);
-// seg04: "watch when we click Run Full Demo" -> click at the end of this beat
+// seg04: describe worker (right)
 await wait(plan[3]);
+// seg05: "watch when we click Run Full Demo" -> click at the end of this beat
+await wait(plan[4]);
 console.log("Clicking Run Full Demo...");
 await clickRunFullDemo(page);
-// seg05: the run itself (discovery, matching, submit, verify)
-await wait(plan[4]);
-// seg06: "it passes, escrow released"
+// seg06: the run itself / "how we used WebMCP" (discovery, matching)
 await wait(plan[5]);
-// seg07: "now watch an adversarial submission" -> click at the end
+// seg07: submit, verify (tier1 + tier2)
 await wait(plan[6]);
+// seg08: "it passes, escrow released"
+await wait(plan[7]);
+// seg09: "now watch an adversarial submission" -> click at the end
+await wait(plan[8]);
 console.log("Clicking Run Adversarial Demo...");
 await clickRunAdversarial(page);
-// seg08: broker judge not fooled
-await wait(plan[7]);
-// seg09: no payout
-await wait(plan[8]);
-// seg10: outro
+// seg10: broker judge not fooled
 await wait(plan[9]);
+// seg11: outro / "that's what we built"
+await wait(plan[10]);
 
 console.log("Closing (finalizing video)...");
 await context.close();
