@@ -7,17 +7,25 @@ participant with one script tag: pages that need something declare a
 or human, "Human-as-a-Service"), and an LLM-backed **Broker** discovers,
 matches, verifies, and settles between them.
 
-Full write-up: [`docs/PROPOSAL.en.md`](docs/PROPOSAL.en.md) (English,
-primary) · [`docs/PROPOSAL.ja.md`](docs/PROPOSAL.ja.md) (Japanese,
-supplementary). Protocol/trust design (concept work, beyond what this
-PoC implements — Mandate objects, escrow state machine, and an
-adversarial catalogue of dishonest moves each side could attempt):
-[`docs/PROTOCOL.md`](docs/PROTOCOL.md).
+## Documents
 
-**Demo video**: `demo/render/wli-demo.mp4` (~75s, narrated, captioned —
-not committed to git since it's a generated binary; regenerate with
-`node demo/record.mjs && demo/mux.sh`, or see `demo/` for the source
-script/narration/build steps). *[link to be added here once uploaded]*
+- **[`docs/PROPOSAL.en.md`](docs/PROPOSAL.en.md)** — the pitch (English,
+  primary submission write-up) · **[`docs/PROPOSAL.ja.md`](docs/PROPOSAL.ja.md)**
+  (Japanese, supplementary translation)
+- **[`docs/PROTOCOL.md`](docs/PROTOCOL.md)** — the escrow/trust protocol
+  design. **Read this if you're asking "what stops either side from
+  cheating."** It maps WLI's Job/Match/Settlement objects onto Google's
+  AP2 (Agent Payments Protocol) Mandate pattern instead of reinventing
+  signed-authorization from scratch, and its core section is an
+  adversarial catalogue — for the Requester, the Worker, and the Broker
+  itself, specific dishonest moves each could attempt, each explicitly
+  marked as already defended in this PoC, designed but not yet
+  implemented, or an honestly-unsolved open problem. Concept-level
+  design work, clearly labeled as such — not all of it runs in this repo.
+- **Demo video**: `demo/render/wli-demo.mp4` (~75s, narrated, captioned —
+  not committed to git since it's a generated binary; regenerate with
+  `node demo/record.mjs && demo/mux.sh`, or see `demo/` for the source
+  script/narration/build steps). *[link to be added here once uploaded]*
 
 ## What's real in this PoC
 
@@ -123,4 +131,5 @@ broker/public/index.html the dashboard UI
 broker/fixtures/sortwell/    the real bug/fix/test used for Tier-1
 docs/PROPOSAL.en.md      submission write-up (English, primary)
 docs/PROPOSAL.ja.md      submission write-up (Japanese, supplementary)
+docs/PROTOCOL.md         escrow/trust protocol design + adversarial catalogue
 ```
