@@ -7,8 +7,11 @@ participant with one script tag: pages that need something declare a
 or human, "Human-as-a-Service"), and an LLM-backed **Broker** discovers,
 matches, verifies, and settles between them.
 
-**Live broker (Cloud Run)**: https://wli-broker-750897706893.asia-northeast1.run.app
-*(Requester/Worker origins: pending separate static hosting — see "Deploying" below.)*
+**Live demo (Cloud Run) — open this**: https://wli-broker-750897706893.asia-northeast1.run.app
+Requester origin: https://wli-requester-750897706893.asia-northeast1.run.app ·
+Worker origin: https://wli-worker-750897706893.asia-northeast1.run.app
+(All three are genuinely separate origins/services, per the design — see
+"Deploying" below for how.)
 
 ## Documents
 
@@ -89,7 +92,18 @@ npm start
 
 ## Deploying
 
-`broker/` is a plain long-running Node/Express process (it spawns a real
+**What the live URLs above actually run on**: all three origins are
+separate **Cloud Run** services in one GCP project, deployed from the
+*same* container image (`gcloud run deploy wli-broker --source=.` once,
+then `wli-requester`/`wli-worker` reuse that exact image digest with
+`--port=3001`/`--port=3002` — no rebuild needed, since `server.mjs`
+already listens on all three ports regardless of which service is
+"meant" to be reached). `--min-instances=1` on each avoids cold starts.
+`wli-broker`'s `REQUESTER_URL`/`WORKER_URL` env vars point at the other
+two services' real `*.run.app` URLs. This reuses the repo's `Dockerfile`
+unmodified — see it for the Playwright base image details.
+
+Other options work too. `broker/` is a plain long-running Node/Express process (it spawns a real
 sandboxed test run per verification and drives a real Chromium via
 Playwright for each demo run) — it needs an always-on host, not a
 serverless function platform like Vercel/Netlify Functions, which
