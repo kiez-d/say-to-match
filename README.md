@@ -7,6 +7,9 @@ participant with one script tag: pages that need something declare a
 or human, "Human-as-a-Service"), and an LLM-backed **Broker** discovers,
 matches, verifies, and settles between them.
 
+**Live broker (Cloud Run)**: https://wli-broker-750897706893.asia-northeast1.run.app
+*(Requester/Worker origins: pending separate static hosting — see "Deploying" below.)*
+
 ## Documents
 
 - **[`docs/PROPOSAL.en.md`](docs/PROPOSAL.en.md)** — the pitch (English,
