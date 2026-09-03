@@ -7,8 +7,8 @@
 #
 # Microsoft's official Playwright image ships a matching Chromium build
 # with every system library pre-installed correctly — no library-
-# hunting workarounds needed (unlike this repo's own dev sandbox, see
-# PROGRESS.md, which had no root and had to assemble those by hand).
+# hunting workarounds needed (unlike this repo's own dev sandbox, which
+# had no root and had to assemble those by hand).
 # Pin the tag to the exact Playwright version in broker/package-lock.json
 # (`npm ci` below installs that exact version) so the bundled browser
 # build matches what the `playwright` npm package expects.

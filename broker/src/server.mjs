@@ -8,9 +8,9 @@ import { listEntries } from "./ledger.mjs";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const REPO_ROOT = path.join(__dirname, "..", "..");
-// The shared .env lives at the repo root (one secret, documented once in
-// PROGRESS.md), not inside broker/ — load it explicitly rather than
-// relying on dotenv's process.cwd()-relative default.
+// The shared .env lives at the repo root, not inside broker/ — load it
+// explicitly rather than relying on dotenv's process.cwd()-relative
+// default.
 dotenv.config({ path: path.join(REPO_ROOT, ".env") });
 const SITES_DIR = path.join(REPO_ROOT, "sites");
 const EMBED_FILE = path.join(SITES_DIR, "wli-embed.js");

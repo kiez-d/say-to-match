@@ -5,7 +5,7 @@
 #
 # On a normal machine with real system fonts this FONTCONFIG_FILE line
 # is unnecessary and harmless to skip. It's only needed in dev
-# containers with no font infrastructure at all — see PROGRESS.md.
+# containers with no font infrastructure at all.
 set -euo pipefail
 cd "$(dirname "$0")/.."
 
