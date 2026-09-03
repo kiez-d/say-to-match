@@ -51,6 +51,34 @@ def fmt_ts(t):
     return f"{h:02d}:{m:02d}:{s:06.3f}".replace(".", ",")
 
 
+# libass (the subtitles filter's renderer) draws a separate background
+# box per rendered LINE when a single SRT cue auto-wraps to multiple
+# lines under BorderStyle=3 — with a semi-transparent box color, the
+# seam where two line-boxes meet visibly double-darkens. Rather than
+# let long captions auto-wrap into a multi-line cue, we pre-wrap each
+# caption ourselves and emit one cue PER LINE (splitting that caption's
+# time window proportionally by character count), so at any instant at
+# most one single-line box is on screen — no seam is possible.
+MAX_CHARS_PER_LINE = 66
+
+
+def wrap_text(text, max_chars):
+    words = text.split()
+    lines, current = [], []
+    length = 0
+    for w in words:
+        add = len(w) + (1 if current else 0)
+        if length + add > max_chars and current:
+            lines.append(" ".join(current))
+            current, length = [w], len(w)
+        else:
+            current.append(w)
+            length += add
+    if current:
+        lines.append(" ".join(current))
+    return lines
+
+
 def gap_after(i):
     return GAP_SEC + EXTRA_GAP.get(i, 0)
 
@@ -101,12 +129,22 @@ with open(srt_path, "w") as f:
     for i, (start, end, text) in enumerate(timeline):
         if i < SKIP_CAPTIONS_FOR_FIRST_N_LINES:
             continue
-        f.write(f"{cue_num}\n{fmt_ts(start)} --> {fmt_ts(end)}\n{text}\n\n")
-        cue_num += 1
+        sub_lines = wrap_text(text, MAX_CHARS_PER_LINE)
+        window = end - start
+        total_chars = sum(len(l) for l in sub_lines) or 1
+        t_cursor = start
+        for j, sub in enumerate(sub_lines):
+            share = len(sub) / total_chars
+            sub_dur = window if len(sub_lines) == 1 else window * share
+            sub_start, sub_end = t_cursor, min(t_cursor + sub_dur, end)
+            f.write(f"{cue_num}\n{fmt_ts(sub_start)} --> {fmt_ts(sub_end)}\n{sub}\n\n")
+            cue_num += 1
+            t_cursor = sub_end
 print(
     "wrote", srt_path,
     f"(skipped captions for the first {SKIP_CAPTIONS_FOR_FIRST_N_LINES} lines — "
-    "they're already shown as on-screen text by intro.html)",
+    "they're already shown as on-screen text by intro.html; remaining lines "
+    "pre-wrapped to single-line cues to avoid libass's multi-line box seam)",
 )
 
 # Also emit the per-segment plan (duration + gap) as JSON for the
