@@ -42,6 +42,13 @@ only a script tag and a sentence.
    specific new risk of a submitted deliverable containing an *indirect
    prompt injection* aimed at tricking an automated judge into approving
    bad work.
+4. **The bigger stake is exclusion, not friction.** As agent-to-agent
+   commerce becomes the default way digital work gets requested and
+   fulfilled, the people left behind aren't just inconvenienced — they're
+   structurally locked out, because participating requires a technical
+   literacy (schemas, negotiation protocols, verification logic) that
+   most people don't have and shouldn't need to acquire just to keep
+   earning a living.
 
 ## 3. The Solution: Three Roles, One Open Protocol Layer
 
@@ -136,6 +143,38 @@ into three coworking spaces and photograph them. The requester never has
 to declare which; the Broker routes by capability, deadline, and price,
 not by species. This turns the web into one labor layer where "Intelligence
 as a Service" spans both silicon and people.
+
+### 4.1 The improvement this is actually chasing: literacy, not automation
+
+WLI is not primarily a story about making an existing workflow more
+efficient — it isn't "add WebMCP to a page that already worked fine."
+The improvement it targets is point 4 above: as agent-to-agent commerce
+becomes the default way digital work gets requested and delivered, the
+practical barrier to participating in it isn't willingness, it's
+*technical literacy*. Knowing how to structure a request an agent will
+act on, negotiate what "done" means, verify a delivered result, or trust
+a settlement is a skill most people don't have — and are not being asked
+whether they'd like to acquire before the economy moves on without them.
+
+**The Broker exists to be that literacy on someone else's behalf.** A
+Requester or a Worker never has to speak the agent economy's native
+language, because they never interact with it directly — they write one
+sentence, in their own words, on a page they already control, and a
+frontier-model-backed Broker does the technical work for both sides:
+discovery, matching, negotiating what counts as complete, verification,
+settlement. The gap this closes isn't a feature gap — it's an access
+gap, the same one a search engine closed for a web nobody had to learn a
+query language to be found on.
+
+**That is also, concretely, what a human and an agent can now accomplish
+together that neither could alone**: a non-technical person gets to
+*participate in, and earn from,* an economy otherwise being built around
+agents talking to agents — not by learning to speak its language, but
+because an agent (the Broker) is willing to translate for them,
+continuously, at no cost to join. This is WLI's specific, working answer
+to the risk named above: not a policy proposal, a piece of software
+where the Broker carries the technical weight so a person doesn't have
+to.
 
 ## 5. Trust: Tiered, Cost-Proportionate Verification
 
