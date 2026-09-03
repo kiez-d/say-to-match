@@ -11,6 +11,13 @@ SEG_DIR = os.path.join(ROOT, "render", "segments")
 FFMPEG = os.path.join(ROOT, "..", "tools", "bin", "ffmpeg")
 FFPROBE = os.path.join(ROOT, "..", "tools", "bin", "ffprobe")
 GAP_SEC = 0.45
+# Extra silence (seconds) inserted after specific 0-indexed lines, on
+# top of GAP_SEC — used for the ~0.5s breathing pause between the
+# intro's explanation (lines 0-3) and the live-demo mechanics (line 4
+# onward), so the cut doesn't feel abrupt. Keyed by the 0-indexed line
+# AFTER which the extra gap lands (line index 3 = the 4th line, "Here's
+# what that actually looks like, running live.").
+EXTRA_GAP = {3: 0.5}
 # The first N narration lines play over broker/public/intro.html, which
 # already displays that same text as large stylized on-screen typography
 # (see its .risk-line/.solution-line/.tagline elements). Burning the
@@ -44,23 +51,35 @@ def fmt_ts(t):
     return f"{h:02d}:{m:02d}:{s:06.3f}".replace(".", ",")
 
 
+def gap_after(i):
+    return GAP_SEC + EXTRA_GAP.get(i, 0)
+
+
 durations = [duration(f) for f in seg_files]
-print("durations:", durations, "total:", sum(durations) + GAP_SEC * (len(durations) - 1))
+total_gaps = sum(gap_after(i) for i in range(len(durations) - 1))
+print("durations:", durations, "total:", sum(durations) + total_gaps)
 
 # Build ffmpeg concat filter: seg1 [silence] seg2 [silence] ...
-silence_file = os.path.join(ROOT, "render", "silence.wav")
-subprocess.run(
-    [FFMPEG, "-y", "-f", "lavfi", "-i", f"anullsrc=r=22050:cl=mono", "-t", str(GAP_SEC),
-     silence_file],
-    check=True, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL,
-)
+# A distinct silence clip is generated per unique gap duration (usually
+# just the default GAP_SEC, plus one longer clip for any EXTRA_GAP
+# boundary) and reused by reference in the concat list.
+silence_files = {}
+for i in range(len(seg_files) - 1):
+    g = gap_after(i)
+    if g not in silence_files:
+        path = os.path.join(ROOT, "render", f"silence_{str(g).replace('.', '_')}.wav")
+        subprocess.run(
+            [FFMPEG, "-y", "-f", "lavfi", "-i", "anullsrc=r=22050:cl=mono", "-t", str(g), path],
+            check=True, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL,
+        )
+        silence_files[g] = path
 
 concat_list_path = os.path.join(ROOT, "render", "concat_list.txt")
 with open(concat_list_path, "w") as f:
     for i, seg in enumerate(seg_files):
         f.write(f"file '{seg}'\n")
         if i < len(seg_files) - 1:
-            f.write(f"file '{silence_file}'\n")
+            f.write(f"file '{silence_files[gap_after(i)]}'\n")
 
 narration_out = os.path.join(ROOT, "render", "narration.wav")
 subprocess.run(
@@ -73,9 +92,9 @@ print("wrote", narration_out, "total duration", duration(narration_out))
 srt_path = os.path.join(ROOT, "render", "captions.srt")
 timeline = []  # (start, end, text)
 t = 0.0
-for line, dur in zip(lines, durations):
+for i, (line, dur) in enumerate(zip(lines, durations)):
     timeline.append((t, t + dur, line))
-    t += dur + GAP_SEC
+    t += dur + gap_after(i)
 
 with open(srt_path, "w") as f:
     cue_num = 1
@@ -95,7 +114,12 @@ print(
 plan_path = os.path.join(ROOT, "render", "segment_plan.json")
 with open(plan_path, "w") as f:
     json.dump(
-        [{"index": i + 1, "text": lines[i], "duration": durations[i], "gap": GAP_SEC}
+        # gap_after() only covers boundaries between clips (0..len-2); the
+        # last line has nothing after it in the audio, but we still give
+        # it GAP_SEC of trailing hold so the final frame doesn't cut the
+        # instant the last word ends.
+        [{"index": i + 1, "text": lines[i], "duration": durations[i],
+          "gap": gap_after(i) if i < len(lines) - 1 else GAP_SEC}
          for i in range(len(lines))],
         f, indent=2,
     )

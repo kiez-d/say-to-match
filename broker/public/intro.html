@@ -6,8 +6,12 @@
 <title>WLI Intro</title>
 <style>
   :root {
-    --bg: #0b0d10; --panel: #12151a; --line: #232833;
-    --fg: #e6e9ef; --muted: #8891a3; --accent: #6ea8fe; --good: #3ecf7a; --warn: #f5b942;
+    /* Light color scheme — deliberately matches the requester (human/
+       blog) side's warm palette elsewhere in this project, not the
+       broker dashboard's dark theme. */
+    --bg: #fdfcf9; --panel: #ffffff; --line: #e2ddd1;
+    --fg: #1c1c1c; --muted: #6b6558; --accent: #2a5c8f; --good: #1f6b1f; --warn: #9a6b00;
+    --risk: #b23a2e;
   }
   * { box-sizing: border-box; }
   html, body {
@@ -17,19 +21,19 @@
   }
   .stage { position: relative; width: 100%; height: 100%; }
 
-  /* faint background grid, matches the dashboard's industrial feel */
+  /* faint background grid */
   .grid {
     position: absolute; inset: 0;
     background-image:
       linear-gradient(var(--line) 1px, transparent 1px),
       linear-gradient(90deg, var(--line) 1px, transparent 1px);
     background-size: 64px 64px;
-    opacity: .18;
+    opacity: .5;
   }
 
   .kicker {
     position: absolute; top: 56px; left: 0; right: 0; text-align: center;
-    font-size: 13px; letter-spacing: .12em; text-transform: uppercase; color: var(--muted);
+    font-size: 16px; letter-spacing: .12em; text-transform: uppercase; color: var(--muted);
     opacity: 0; animation: fadeUp 1.2s ease-out .3s forwards;
   }
 
@@ -37,12 +41,12 @@
   .ghosts { position: absolute; inset: 0; }
   .ghost {
     position: absolute; width: 34px; height: 34px; border-radius: 50%;
-    background: var(--muted); opacity: 0;
+    background: #c9c0ac; opacity: 0;
     animation: ghostDrift 9s ease-in forwards;
   }
   .ghost::after {
     content: ""; position: absolute; left: 50%; top: 130%; transform: translateX(-50%);
-    width: 46px; height: 26px; border-radius: 23px 23px 0 0; background: var(--muted);
+    width: 46px; height: 26px; border-radius: 23px 23px 0 0; background: #c9c0ac;
   }
   .g1 { top: 210px; left: 220px; animation-delay: 1.0s; }
   .g2 { top: 640px; left: 340px; animation-delay: 1.4s; }
@@ -51,23 +55,24 @@
   .g5 { top: 420px; left: 1120px; animation-delay: 2.6s; }
   @keyframes ghostDrift {
     0%   { opacity: 0; transform: translateY(0) scale(.8); }
-    15%  { opacity: .28; transform: translateY(0) scale(1); }
-    70%  { opacity: .22; transform: translateY(-10px) scale(1); }
+    15%  { opacity: .45; transform: translateY(0) scale(1); }
+    70%  { opacity: .35; transform: translateY(-10px) scale(1); }
     100% { opacity: 0; transform: translateY(-40px) scale(.7); }
   }
 
   /* Timings below are tuned against demo/render/segment_plan.json's
      real (measured, not guessed) narration durations for lines 1-4,
-     generated with piper --length_scale 1.05 (5% slower than default):
-     line1 0.00-10.27s, line2 10.72-20.08s, line3 20.53-35.40s,
-     line4 35.85-38.96s. Re-tune these if narration.txt's first four
-     lines or --length_scale change — see demo/build_audio.py. */
+     generated with piper --length_scale 1.05 (5% slower than default),
+     including the extra ~0.5s breathing gap build_audio.py inserts
+     after line 4 before the cut to the live dashboard. Re-tune these
+     if narration.txt's first four lines, --length_scale, or the extra
+     gap change — see demo/build_audio.py's EXTRA_GAP. */
   .risk-line {
-    position: absolute; top: 360px; left: 0; right: 0; text-align: center;
-    font-size: 30px; font-weight: 600; color: var(--fg); padding: 0 120px;
+    position: absolute; top: 340px; left: 0; right: 0; text-align: center;
+    font-size: 38px; font-weight: 700; color: var(--fg); padding: 0 110px;
     opacity: 0; animation: fadeHold 9.2s ease-in-out 1.0s forwards;
   }
-  .risk-line b { color: #ff8a8a; }
+  .risk-line b { color: var(--risk); }
   @keyframes fadeHold {
     0% { opacity: 0; transform: translateY(8px); }
     12% { opacity: 1; transform: translateY(0); }
@@ -76,8 +81,8 @@
   }
 
   .solution-line {
-    position: absolute; top: 360px; left: 0; right: 0; text-align: center;
-    font-size: 28px; font-weight: 600; color: var(--good); padding: 0 130px;
+    position: absolute; top: 340px; left: 0; right: 0; text-align: center;
+    font-size: 36px; font-weight: 700; color: var(--good); padding: 0 120px;
     opacity: 0; animation: fadeHold 9.3s ease-in-out 10.7s forwards;
   }
 
@@ -86,18 +91,19 @@
   @keyframes fadeIn { to { opacity: 1; } }
 
   .node {
-    position: absolute; width: 300px; padding: 22px 20px; border-radius: 16px;
+    position: absolute; width: 330px; padding: 24px 22px; border-radius: 16px;
     border: 1px solid var(--line); background: var(--panel);
+    box-shadow: 0 2px 10px rgba(28,28,28,.06);
     text-align: center; opacity: 0; transform: translateY(16px) scale(.94);
   }
-  .node .icon { font-size: 34px; margin-bottom: 8px; }
-  .node .role { font-size: 12px; text-transform: uppercase; letter-spacing: .08em; color: var(--muted); }
-  .node .label { font-size: 19px; font-weight: 700; margin-top: 4px; }
-  .node .sub { font-size: 13px; color: var(--muted); margin-top: 6px; }
+  .node .icon { font-size: 42px; margin-bottom: 8px; }
+  .node .role { font-size: 14px; text-transform: uppercase; letter-spacing: .08em; color: var(--muted); font-weight: 600; }
+  .node .label { font-size: 24px; font-weight: 700; margin-top: 4px; }
+  .node .sub { font-size: 16px; color: var(--muted); margin-top: 6px; }
 
-  .n-requester { top: 260px; left: 60px; animation: nodeIn .7s ease-out 20.8s forwards; }
-  .n-broker    { top: 90px;  left: 490px; animation: nodeIn .7s ease-out 22.6s forwards; border-color: var(--accent); }
-  .n-worker    { top: 260px; left: 920px; animation: nodeIn .7s ease-out 25.8s forwards; }
+  .n-requester { top: 260px; left: 40px;  animation: nodeIn .7s ease-out 20.8s forwards; }
+  .n-broker    { top: 90px;  left: 475px; animation: nodeIn .7s ease-out 22.6s forwards; border-color: var(--accent); }
+  .n-worker    { top: 260px; left: 910px; animation: nodeIn .7s ease-out 25.8s forwards; }
   @keyframes nodeIn { to { opacity: 1; transform: translateY(0) scale(1); } }
 
   svg.flows { position: absolute; inset: 0; width: 1280px; height: 800px; }
@@ -111,16 +117,16 @@
   @keyframes draw { to { stroke-dashoffset: 0; } }
 
   .flow-label {
-    position: absolute; font-size: 13px; color: var(--muted); opacity: 0;
+    position: absolute; font-size: 16px; color: var(--muted); opacity: 0; font-weight: 600;
     background: var(--bg); padding: 2px 8px; border-radius: 6px;
   }
-  .fl1 { top: 158px; left: 350px; animation: fadeUp .6s ease-out 23.8s forwards; }
-  .fl2 { top: 158px; left: 760px; animation: fadeUp .6s ease-out 27.0s forwards; }
-  .fl3 { top: 430px; left: 555px; animation: fadeUp .6s ease-out 30.1s forwards; }
+  .fl1 { top: 150px; left: 385px; animation: fadeUp .6s ease-out 23.8s forwards; }
+  .fl2 { top: 150px; left: 785px; animation: fadeUp .6s ease-out 27.0s forwards; }
+  .fl3 { top: 430px; left: 552px; animation: fadeUp .6s ease-out 30.1s forwards; }
 
   .tagline {
-    position: absolute; bottom: 64px; left: 0; right: 0; text-align: center;
-    font-size: 15px; color: var(--muted); opacity: 0;
+    position: absolute; bottom: 56px; left: 0; right: 0; text-align: center;
+    font-size: 18px; color: var(--muted); opacity: 0;
     animation: fadeUp 1s ease-out 32.3s forwards;
   }
   .tagline b { color: var(--fg); }
@@ -151,8 +157,8 @@
 
   <div class="diagram">
     <svg class="flows" viewBox="0 0 1280 800">
-      <path class="flow-path p1" d="M 360 300 C 420 260, 430 220, 490 190" />
-      <path class="flow-path p2" d="M 790 190 C 850 220, 860 260, 920 300" />
+      <path class="flow-path p1" d="M 370 300 C 420 260, 430 220, 475 190" />
+      <path class="flow-path p2" d="M 805 190 C 860 220, 870 260, 910 300" />
       <path class="flow-path p3" d="M 900 400 C 760 470, 520 470, 380 400" />
     </svg>
 
