@@ -11,6 +11,7 @@ node_modules
 demo/node_modules
 broker/node_modules
 demo/render
+broker/data
 tools/
 webmcp-session-handover.zip
 *.log
