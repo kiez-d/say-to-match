@@ -118,7 +118,15 @@
   }
   .flow-path.p1 { animation: draw 1.1s ease-out 23.0s forwards; }
   .flow-path.p2 { animation: draw 1.1s ease-out 26.2s forwards; stroke: var(--warn); }
-  .flow-path.p3 { animation: draw 1.1s ease-out 29.3s forwards; stroke: var(--good); }
+  /* p3 spans ~520px horizontally plus its bow — well over the shared
+     420 dasharray/dashoffset above, so with the default it never
+     fully draws in (the dash pattern repeats mid-path, looking like a
+     broken line). Give it its own larger values that comfortably
+     exceed its real path length. */
+  .flow-path.p3 {
+    stroke-dasharray: 900; stroke-dashoffset: 900;
+    animation: draw 1.1s ease-out 29.3s forwards; stroke: var(--good);
+  }
   @keyframes draw { to { stroke-dashoffset: 0; } }
 
   .flow-label {

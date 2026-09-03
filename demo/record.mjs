@@ -51,24 +51,27 @@ await page.goto(DASHBOARD, { waitUntil: "load" });
 await wait(plan[4]);
 // seg06: describe worker (right)
 await wait(plan[5]);
-// seg07: "watch when we click Run Full Demo" -> click at the end of this beat
+// seg07: natural-language / no-rigid-schema explanation — still on the
+// dashboard showing both origins, no action yet
 await wait(plan[6]);
+// seg08: "watch when we click Run Full Demo" -> click at the end of this beat
+await wait(plan[7]);
 console.log("Clicking Run Full Demo...");
 await clickRunFullDemo(page);
-// seg08: the run itself / "how we used WebMCP" (discovery, matching)
-await wait(plan[7]);
-// seg09: submit, verify (tier1 + tier2)
+// seg09: the run itself / "how we used WebMCP" (discovery, matching)
 await wait(plan[8]);
-// seg10: "it passes, escrow released"
+// seg10: submit, verify (tier1 + tier2)
 await wait(plan[9]);
-// seg11: "now watch an adversarial submission" -> click at the end
+// seg11: "it passes, escrow released"
 await wait(plan[10]);
+// seg12: "now watch an adversarial submission" -> click at the end
+await wait(plan[11]);
 console.log("Clicking Run Adversarial Demo...");
 await clickRunAdversarial(page);
-// seg12: broker judge not fooled
-await wait(plan[11]);
-// seg13: outro / "that's what we built"
+// seg13: broker judge not fooled
 await wait(plan[12]);
+// seg14: outro / "that's what we built"
+await wait(plan[13]);
 
 console.log("Closing (finalizing video)...");
 await context.close();

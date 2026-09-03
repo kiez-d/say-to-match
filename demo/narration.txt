@@ -4,6 +4,7 @@ Three roles make it work. A Requester posts a Job in plain language. A Worker, A
 Here's what that actually looks like, running live.
 On the left is an independent website: an open source maintainer's blog, posting a real bug-fix bounty as a WebMCP job.
 On the right is a completely separate origin: a developer's portfolio site, declaring a matching skill.
+Notice both sides just describe what they need or offer in plain natural language, no rigid technical schema required. That's what makes this a WebMCP advertisement anyone can publish.
 Watch what happens when we click Run Full Demo.
 This is how we used WebMCP: a real headless browser opens both origins as independent tabs, and calls their document dot model context tools directly. Not one app faking two sides with a shared database.
 The worker submits a patch. The broker runs it through a real sandboxed test suite, then a frontier language model judges it against the original requirement.
