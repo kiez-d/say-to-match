@@ -106,9 +106,9 @@
   .node .label { font-size: 24px; font-weight: 700; margin-top: 4px; }
   .node .sub { font-size: 16px; color: var(--muted); margin-top: 6px; }
 
-  .n-requester { top: 260px; left: 40px;  animation: nodeIn .7s ease-out 20.8s forwards; }
-  .n-broker    { top: 90px;  left: 475px; animation: nodeIn .7s ease-out 22.6s forwards; border-color: var(--accent); }
-  .n-worker    { top: 260px; left: 910px; animation: nodeIn .7s ease-out 25.8s forwards; }
+  .n-requester { top: 350px; left: 40px;  animation: nodeIn .7s ease-out 20.8s forwards; }
+  .n-broker    { top: 180px; left: 475px; animation: nodeIn .7s ease-out 22.6s forwards; border-color: var(--accent); }
+  .n-worker    { top: 350px; left: 910px; animation: nodeIn .7s ease-out 25.8s forwards; }
   @keyframes nodeIn { to { opacity: 1; transform: translateY(0) scale(1); } }
 
   svg.flows { position: absolute; inset: 0; width: 1280px; height: 800px; }
@@ -133,9 +133,9 @@
     position: absolute; font-size: 20px; color: var(--fg); opacity: 0; font-weight: 700;
     background: var(--bg); padding: 3px 10px; border-radius: 6px;
   }
-  .fl1 { top: 150px; left: 385px; animation: fadeUp .6s ease-out 23.8s forwards; }
-  .fl2 { top: 150px; left: 785px; animation: fadeUp .6s ease-out 27.0s forwards; }
-  .fl3 { top: 430px; left: 552px; animation: fadeUp .6s ease-out 30.1s forwards; }
+  .fl1 { top: 240px; left: 385px; animation: fadeUp .6s ease-out 23.8s forwards; }
+  .fl2 { top: 240px; left: 785px; animation: fadeUp .6s ease-out 27.0s forwards; }
+  .fl3 { top: 520px; left: 552px; animation: fadeUp .6s ease-out 30.1s forwards; }
 
   .tagline {
     position: absolute; bottom: 50px; left: 0; right: 0; text-align: center;
@@ -170,9 +170,9 @@
 
   <div class="diagram">
     <svg class="flows" viewBox="0 0 1280 800">
-      <path class="flow-path p1" d="M 370 300 C 420 260, 430 220, 475 190" />
-      <path class="flow-path p2" d="M 805 190 C 860 220, 870 260, 910 300" />
-      <path class="flow-path p3" d="M 900 400 C 760 470, 520 470, 380 400" />
+      <path class="flow-path p1" d="M 370 390 C 420 350, 430 310, 475 280" />
+      <path class="flow-path p2" d="M 805 280 C 860 310, 870 350, 910 390" />
+      <path class="flow-path p3" d="M 900 490 C 760 560, 520 560, 380 490" />
     </svg>
 
     <div class="node n-requester">
