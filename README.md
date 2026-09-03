@@ -100,7 +100,14 @@ chromium && npm start` as a persistent process with port `3000` (or
 hosted anywhere static hosting works (Netlify, Vercel, Cloudflare Pages,
 GitHub Pages) — including on genuinely different domains from each other
 and from the broker, which is arguably the *most* honest demonstration of
-the "any independent site can join" pitch.
+the "any independent site can join" pitch. **Watch out for one thing on
+GitHub Pages specifically**: two project sites under the same account
+(`you.github.io/repo-a/`, `you.github.io/repo-b/`) are the *same origin*
+(same host `you.github.io`, just different paths) — that defeats the
+independent-origins point entirely. Use two separate accounts, two
+separate subdomains of a domain you own, or simpler still, two separate
+Netlify/Vercel projects (each gets its own distinct auto-generated
+subdomain with zero extra setup).
 
 If the two site origins end up on different hosts/domains than
 `localhost:3001`/`:3002`, point the broker at them instead of guessing —
@@ -115,6 +122,32 @@ npm start
 (`broker/src/agent.mjs` and the dashboard's iframes both read these same
 two env vars via `GET /api/config`, so setting them is the only change
 needed — no code edits.)
+
+### Run via Docker (a convenience add-on, not a substitute for the live URL)
+
+A `Dockerfile` bundles the whole stack (dashboard + both site origins,
+all three served by `broker/src/server.mjs` from one process) on top of
+Microsoft's official Playwright base image, so there's no library
+hunting to do — this is purely for anyone who wants to run and poke at
+the project locally; it does **not** satisfy the challenge's "working
+live URL" requirement by itself.
+
+`.github/workflows/docker-publish.yml` builds and pushes this image to
+GitHub Container Registry automatically on every push to `main`, using
+GitHub's own repo-scoped token — no Docker Hub account or extra secret
+needed. **After the first push**, go to the package's settings on GitHub
+(under the repo → Packages) and set its visibility to **Public**, or
+anyone pulling it without being logged in will get a permission error.
+Then:
+
+```bash
+docker run --rm -p 3000:3000 -p 3001:3001 -p 3002:3002 \
+  ghcr.io/<owner>/<repo>:latest
+# optionally: -e OPENROUTER_API_KEY=sk-or-... for a live judge call
+# instead of the deterministic mock verdict
+```
+
+and open `http://localhost:3000`.
 
 ## Project layout
 
@@ -132,4 +165,6 @@ broker/fixtures/sortwell/    the real bug/fix/test used for Tier-1
 docs/PROPOSAL.en.md      submission write-up (English, primary)
 docs/PROPOSAL.ja.md      submission write-up (Japanese, supplementary)
 docs/PROTOCOL.md         escrow/trust protocol design + adversarial catalogue
+Dockerfile               local convenience runner (see "Run via Docker" above)
+.github/workflows/       auto-builds/publishes the Docker image to ghcr.io
 ```
