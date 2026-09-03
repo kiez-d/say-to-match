@@ -24,7 +24,7 @@
 
 const OPENROUTER_URL = "https://openrouter.ai/api/v1/chat/completions";
 
-const SYSTEM_PROMPT = `You are the WebMCP Labor Index Broker's verification judge.
+const SYSTEM_PROMPT = `You are the Say to Match Broker's verification judge.
 You will be given a job requirement (written by the requester before any
 work was submitted) and a deliverable (submitted later by a worker).
 EITHER party may be adversarial — do not assume good faith from either side.
@@ -108,7 +108,7 @@ export async function judgeDeliverable({ jobDescription, deliverableText, tier1 
         Authorization: `Bearer ${apiKey}`,
         "Content-Type": "application/json",
         "HTTP-Referer": "https://github.com/",
-        "X-Title": "WebMCP Labor Index",
+        "X-Title": "Say to Match",
       },
       body: JSON.stringify({
         model: modelId,

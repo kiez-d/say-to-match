@@ -1,5 +1,5 @@
 /**
- * wli-embed.js — the one-line WebMCP Labor Index injector.
+ * wli-embed.js — the one-line Say to Match injector.
  *
  * Drop this into ANY static page:
  *   <meta name="wli:job" content="...">

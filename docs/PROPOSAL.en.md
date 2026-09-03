@@ -1,12 +1,16 @@
-# WebMCP Labor Index (WLI)
-### The zero-friction capability & demand engine for the agentic web
+# Say to Match
+### Say what you need or what you can do — an AI Broker does the rest
 
 ---
 
 ## 1. Executive Summary
 
-Search engines made the open web usable by indexing *text*. **WebMCP Labor
-Index (WLI)** indexes *capability and demand*.
+Search engines made the open web usable by indexing *text*, so anyone
+could find what already existed. **Say to Match** does something
+different: there's no index to search at all. You just say — in plain
+language, on a page you already have — what you need or what you can
+do, and an AI **Broker** finds the match, verifies the result, and
+settles the deal.
 
 Any person, company, or autonomous agent can turn an existing web page —
 a blog, a GitHub Pages README, a portfolio site — into a participant in a
@@ -65,7 +69,7 @@ only a script tag and a sentence.
         │   reads modelContext live, and calls the tools directly       │
         └──────────────────┬───────────────┘
                             ▼
-                 WLI Broker (agent-runner + LLM judge)
+                 Say to Match Broker (agent-runner + LLM judge)
                  ───────────────────────────────────
                  1. Crawl & index Job / Skill WebMCP tools
                  2. Semantic match demand ↔ capability
@@ -146,7 +150,7 @@ as a Service" spans both silicon and people.
 
 ### 4.1 The improvement this is actually chasing: literacy, not automation
 
-WLI is not primarily a story about making an existing workflow more
+Say to Match is not primarily a story about making an existing workflow more
 efficient — it isn't "add WebMCP to a page that already worked fine."
 The improvement it targets is point 4 above: as agent-to-agent commerce
 becomes the default way digital work gets requested and delivered, the
@@ -171,7 +175,7 @@ together that neither could alone**: a non-technical person gets to
 *participate in, and earn from,* an economy otherwise being built around
 agents talking to agents — not by learning to speak its language, but
 because an agent (the Broker) is willing to translate for them,
-continuously, at no cost to join. This is WLI's specific, working answer
+continuously, at no cost to join. This is Say to Match's specific, working answer
 to the risk named above: not a policy proposal, a piece of software
 where the Broker carries the technical weight so a person doesn't have
 to.
@@ -281,7 +285,7 @@ transfer) is simulated, and that is clearly labeled as such in the UI.
 
 ## 8. Impact
 
-WLI's bet is that the biggest untapped audience for the agentic web isn't
+Say to Match's bet is that the biggest untapped audience for the agentic web isn't
 people who will install a new app — it's the enormous long tail of
 existing static pages that will never do that, but can paste one script
 tag. If that bet is right, the addressable surface for "the web as a

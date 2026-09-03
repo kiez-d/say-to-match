@@ -1,4 +1,4 @@
-# WebMCP Labor Index (WLI)
+# Say to Match
 
 **A zero-friction, open-web labor market built on WebMCP.** Any static
 page — a blog, a GitHub Pages README, a portfolio — becomes a market
@@ -20,7 +20,7 @@ Worker origin: https://wli-worker-750897706893.asia-northeast1.run.app
   (Japanese, supplementary translation)
 - **[`docs/PROTOCOL.md`](docs/PROTOCOL.md)** — the escrow/trust protocol
   design. **Read this if you're asking "what stops either side from
-  cheating."** It maps WLI's Job/Match/Settlement objects onto Google's
+  cheating."** It maps Say to Match's Job/Match/Settlement objects onto Google's
   AP2 (Agent Payments Protocol) Mandate pattern instead of reinventing
   signed-authorization from scratch, and its core section is an
   adversarial catalogue — for the Requester, the Worker, and the Broker
