@@ -28,10 +28,11 @@ Worker origin: https://wli-worker-750897706893.asia-northeast1.run.app
   marked as already defended in this PoC, designed but not yet
   implemented, or an honestly-unsolved open problem. Concept-level
   design work, clearly labeled as such — not all of it runs in this repo.
-- **Demo video**: `demo/render/wli-demo.mp4` (~75s, narrated, captioned —
-  not committed to git since it's a generated binary; regenerate with
-  `node demo/record.mjs && demo/mux.sh`, or see `demo/` for the source
-  script/narration/build steps). *[link to be added here once uploaded]*
+- **Demo video**: **https://youtu.be/6iEG7cEWypg** (~75s, narrated,
+  captioned). Source: `demo/render/wli-demo.mp4`, not committed to git
+  since it's a generated binary — regenerate with `node demo/record.mjs
+  && demo/mux.sh`, or see `demo/` for the source script/narration/build
+  steps.
 
 ## What's real in this PoC
 
