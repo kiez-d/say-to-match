@@ -55,6 +55,70 @@ Worker origin: https://wli-worker-750897706893.asia-northeast1.run.app
 - **What's simulated:** the escrow/payout is a ledger entry, not a real
   payment rail — clearly labeled as such in the UI.
 
+## Beyond the demo: this isn't only for developers
+
+The live demo runs a code bugfix bounty on purpose — it's the easiest
+kind of task to verify with zero ambiguity (Tier 1: does the test suite
+pass?). But the pitch (see `docs/PROPOSAL.en.md`, §4.1) is that this
+works for anyone who can write one plain-language sentence, not just
+developers. A few examples from early brainstorming — never built for
+this PoC, but illustrating the range it's meant for:
+
+- **A small NGO or local government office** posts a Job: "Transcribe
+  this PDF budget document into an accurate CSV." No coding on either
+  side — the Worker could be an OCR-plus-human-review service, verified
+  by an exact numeric match against the source.
+- **A blogger with no technical background** posts a Job: "Summarize
+  this post in English, Spanish, Chinese, and Japanese, under 150
+  characters each, natural and catchy."
+- **A home cook running a recipe site** posts a Job: "Give me three
+  original recipe ideas using leftover avocado and natto, under 15
+  minutes prep."
+- **A gig worker with just a smartphone** posts a Skill: "I'll visit
+  cafés in Tokyo and report outlet availability, Wi-Fi speed, and how
+  crowded it is, with photos" — verified against the photos' own
+  EXIF location/timestamp data, not by trusting their word.
+- **A voice actor** posts a Skill: "Studio-recorded Japanese and English
+  character voices and narration" — the same Human-as-a-Service path a
+  screen-reader tester or an embedded-systems engineer uses elsewhere in
+  this doc, just with a much lower skill floor to participate.
+- **Anyone with a smartphone** posts a Skill: "I'll install this app, use
+  it for 10 minutes, and screen-record every crash or confusing moment I
+  hit." No QA background required — the only qualification is being a
+  patient, honest tester.
+- **A small business owner** posts a Job: "Our bookkeeper is on leave —
+  review these 200 AI-transcribed receipts against Japanese tax rules
+  and flag anything wrong before we file." The Worker is a licensed
+  accountant (HaaS) spot-checking AI output rather than doing the data
+  entry themselves — AI supplies the volume, a person supplies the
+  judgment and the liability.
+- **A social app team** posts a Job: "You're 18–24 and just downloaded a
+  social app for the first time — walk through onboarding and tell us,
+  in your own words, the exact moment you'd have given up." The Worker's
+  only qualification is being the right kind of person, not any trained
+  skill.
+
+None of these require the Requester or the Worker to understand WebMCP,
+JSON schemas, or how the Broker verifies anything — they write one
+sentence (or have someone/something write it for them) and the Broker
+does the rest.
+
+**Worth being honest about**: several of these are *harder to verify*
+than anything this PoC actually implements. Tier 1 (deterministic
+sandbox) only applies to things that compile or run against a spec — it
+has nothing to say about a screen-recorded bug report, a subjective "the
+moment I'd give up," or a tax judgment call. Tier 2 (LLM-as-judge) can
+check whether a submission is on-topic and internally consistent, but
+"trust the photo's EXIF data" or "trust the accountant's license" isn't
+verification so much as a placeholder for it — there's no real chain of
+custody, and no way yet to price in a professional's liability if
+they're wrong. This PoC's two-tier pipeline is real and does run live,
+but it only covers the more mechanically-checkable end of this list;
+closing the gap for the rest is exactly what
+[`docs/PROTOCOL.md`](docs/PROTOCOL.md)'s adversarial catalogue is
+for — most of what these examples need falls under its "designed, not
+built" or "open problem" columns, not the "defended today" one.
+
 ## Run it
 
 Requires Node.js 20+.

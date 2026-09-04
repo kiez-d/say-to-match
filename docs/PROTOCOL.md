@@ -220,6 +220,7 @@ to the PoC) actually close it?**
 | **W5** | Sybil attack: spin up many disposable worker origins to build fake reputation, or reappear under a new origin after being rejected/blacklisted | **[OPEN PROBLEM]** | This is *structurally harder for Say to Match than for AP2*, because AP2's merchants already sit inside a KYC'd payment network and Say to Match's whole pitch is that anyone can join with zero onboarding. No solution is proposed here beyond noting the direction: a reputation score keyed to origin + domain age/registration cost, and/or a small refundable stake required to be matched at all (raising the cost of disposable identities without reintroducing full KYC). |
 | **W6** | Spam the Broker with garbage submissions to run up its verification bill (a cost-asymmetry / denial-of-service attack — the submitter's cost is ~0, the Broker's cost per rejection, while small, is not exactly 0) | **[DESIGNED — see §5.4]** | A refundable submission bond, sized off the job's own declared verification tier, makes garbage submissions cost the spammer money instead of the Broker — full mechanism in §5.4. **Note**: the PoC's demo intentionally calls Tier 2 unconditionally, even for the adversarial case where Tier 1 has already failed — this is a deliberate demo choice (so the injection-detection behavior is visible on screen), not the recommended production behavior, and the discrepancy is called out here rather than left unexplained. |
 | **W7** | Race/squat: get matched to many jobs simultaneously with no intention of completing most of them, blocking other workers from being matched | **[OPEN, designed]** | Needs the ticket lifecycle's `MATCHED`/`IN_PROGRESS` states to carry a hold, plus §4's `EXPIRED` path to release stale claims. Not implemented. |
+| **W8** | Fabricate a claim the Broker has no way to check: a Skill Description asserting a professional credential the worker doesn't hold ("licensed accountant"), a demographic claim relevant to the job ("I'm 18-24"), or physical evidence staged rather than genuinely captured (a photo with spoofed or reused EXIF data, a screen recording of a different app than the one being tested) | **[OPEN PROBLEM]** | Same underlying gap as R5 — Say to Match has no identity system by design, so it has no credential-verification or provenance system either. Tier 2's LLM judge can check that a submission is internally consistent and on-topic, not that a claimed license, age, or photo is genuine. This is the specific trust gap named in `docs/PROPOSAL.en.md` §6.1's non-technical examples (the accountant, the café gig worker, the age-gated reviewer) — flagged there and formally logged here, not solved either place. |
 
 ### 5.2 Attacks from the Requester (求人) side
 
@@ -312,6 +313,8 @@ exist to trigger.
   repeated, adversarial verification step AP2 was never designed to have.
 - **Open and honestly unsolved**: identity/authorization binding for a
   self-hosted, no-account origin (R5, W5), real fund custody (R4, B1),
-  and originality/provenance checking (W4). These are named, not hidden,
-  because a design document that only lists what's already solved isn't
-  a design document — it's a highlight reel.
+  originality/provenance checking (W4), and — the same gap wearing a
+  different hat — verifying a claimed credential, demographic, or piece
+  of physical evidence behind a Skill or a submission (W8). These are
+  named, not hidden, because a design document that only lists what's
+  already solved isn't a design document — it's a highlight reel.

@@ -232,7 +232,7 @@ Prompt injection is one attack among several this system has to survive
 the Worker might act in bad faith, not just that submissions might be
 adversarial. A representative sample, each marked by whether it's
 already defended in this PoC, designed but not yet built, or an
-honestly-unsolved open problem (full catalogue, all 14 attacks, in
+honestly-unsolved open problem (full catalogue, all 16 attacks, in
 [`docs/PROTOCOL.md`](PROTOCOL.md) §5):
 
 | Who | Attack | Status |
@@ -258,6 +258,39 @@ earns its bounty:
 | "Wire up and calibrate this specific temperature/humidity sensor on an ESP32 dev board; report noise-floor data." | Embedded systems engineer (human, HaaS) with a physical lab | Tier 2: judge reviews submitted logs/photos for physical plausibility and completeness |
 | "Operate a screen reader (NVDA/VoiceOver) against this web app and report every point it becomes unusable." | Accessibility tester (human, HaaS) | Tier 2: judge reviews the report against the app's actual DOM/ARIA tree for specificity and accuracy |
 | "Record a clean narration take of this 400-word script in a North-American English accent, 48kHz/24-bit WAV." | Professional voice talent (human, HaaS) | Tier 1: format/loudness/noise-floor checks + speech-to-text diff against the script; Tier 2: judge on naturalness |
+
+### 6.1 Beyond code: the same pattern for non-technical participants
+
+Every row above is deliberately code-shaped, because code is the easiest
+kind of deliverable for this PoC's two-tier verification to check without
+ambiguity. But the claim in §2 (point 4) and §4.1 — that the barrier
+being closed is technical literacy, not willingness — has to hold for
+participants who aren't developers, or it's just a slogan. A
+representative sample from early brainstorming, not built in this PoC:
+
+| Job / Skill | Who posts it | What's actually being verified |
+|---|---|---|
+| "Transcribe this PDF budget document into an accurate CSV." | A small NGO or local government office (Job) | Exact numeric match against the source — Tier-1-shaped, straightforward |
+| "I'll visit cafés in Tokyo and report outlet availability, Wi-Fi speed, and crowding, with photos." | A gig worker with a smartphone (Skill) | Photo EXIF location/timestamp — plausible today, not tamper-proof |
+| "Review these 200 AI-transcribed receipts against Japanese tax rules before we file." | A small business owner (Job) / a licensed accountant (Skill, HaaS) | A professional judgment call backed by a credential and legal liability — not a pass/fail check at all |
+| "You're 18–24 and just downloaded this app — tell us, in your own words, the moment you'd give up." | A social app team (Job) / any member of that age group (Skill, HaaS) | Whether the answer is specific and on-topic — not whether it's honest, or whether the person is who they claim to be |
+
+**This is the part of the pitch that is honestly still ahead of the
+implementation.** Tier 1 only checks things that compile or match a
+spec; none of the four rows above produce anything Tier 1 can run. Tier
+2 (the LLM judge, live in this PoC) can tell whether a submission is
+on-topic and internally consistent, but "trust the EXIF data," "trust
+the accountant's license," and "trust that this is genuinely an
+18-year-old's honest reaction" are each closer to a placeholder for
+verification than verification itself — there is no chain of custody for
+the photo, no credential check for the professional, no identity check
+for the reviewer. Closing that gap is what the adversarial catalogue in
+[`docs/PROTOCOL.md`](PROTOCOL.md) is working through; most of what these
+four examples need falls under its *designed, not built* or *open
+problem* columns, not *defended today*. The two-tier pipeline that does
+run live in this repo (§5, §7) is real, but today it only covers the
+more mechanically-checkable end of what "anyone can participate" is
+meant to include — not all of it.
 
 ## 7. The Live Demo (this repository)
 
